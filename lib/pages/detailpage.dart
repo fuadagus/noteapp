@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:noteapp/pages/homepage.dart';
 
-class DetailNote extends StatelessWidget {
+class DetailNote extends StatefulWidget {
   const DetailNote(
       {Key? key,
       required this.title,
@@ -14,6 +14,13 @@ class DetailNote extends StatelessWidget {
   final DateTime date;
 
   @override
+  State<DetailNote> createState() => _DetailNoteState();
+}
+
+class _DetailNoteState extends State<DetailNote> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -23,7 +30,7 @@ class DetailNote extends StatelessWidget {
                 Get.back();
               },
               icon: Icon(Icons.arrow_back_ios_new)),
-          title: Text(title),
+          title: Text(widget.title),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -35,15 +42,17 @@ class DetailNote extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                        "Dibuat pada: ${date.toString().substring(0, 16)}"),
+                        "Dibuat pada: ${widget.date.toString().substring(0, 16)}"),
                   ),
                 ],
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    content,
+                  child: TextField(
+                    maxLines: 120,
+                    textInputAction: TextInputAction.newline,
+                    controller: _controller..text = widget.content,
                     textAlign: TextAlign.start,
                     style: TextStyle(fontSize: 20),
                   ),
